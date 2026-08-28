@@ -1,0 +1,54 @@
+Loon 部署说明
+============================
+
+一、你现在有两个文件
+1. juejin_checkin.js   -> Loon 真正执行的脚本
+2. juejin_checkin.plugin -> Loon 插件/订阅配置
+
+二、把两个文件上传到你的 GitHub 仓库根目录
+仓库：
+https://github.com/zhoulehui/juejin-checkin
+
+最终结构：
+juejin-checkin/
+├─ juejin_checkin.js
+├─ juejin_checkin.plugin
+├─ juejin_checkin.py
+├─ requirements.txt
+└─ ...
+
+三、Loon 添加插件
+插件订阅地址：
+https://raw.githubusercontent.com/zhoulehui/juejin-checkin/main/juejin_checkin.plugin
+
+四、在 Loon 插件参数里填写 Cookie
+进入插件参数：
+- 账号1 Cookie：填第一个掘金账号完整 Cookie
+- 账号2~5：有多个账号就继续填，没有就留空
+- 启用自动签到：打开
+
+注意：Cookie 不要写进 GitHub 文件里，Cookie 只填在 Loon 的插件参数中。
+
+五、定时
+插件已经配置：
+cron "15 9 * * *"
+
+Loon 使用本地时间执行，这里就是：
+每天 09:15
+
+六、手动测试
+插件里额外提供了“掘金手动执行”的 generic 脚本。
+添加插件后，可以在 Loon 的脚本界面手动运行，观察日志和通知。
+
+七、脚本做什么
+完全按照你原来的 Python 逻辑：
+1. POST /growth_api/v1/check_in?aid=5240
+2. GET  /growth_api/v1/get_cur_point
+3. GET  /growth_api/v1/lottery_config/get?aid=5240
+4. 如有免费抽奖次数，逐次 POST /growth_api/v1/lottery/draw?aid=5240
+5. 最后通过 Loon 通知推送执行结果
+
+八、提醒
+- Python 脚本原来的 GitHub Actions 可以保留，不影响 Loon。
+- 如果以后只用 Loon，可停止 GitHub Actions，避免重复签到。
+- 如果 Cookie 失效，通知里会出现请求/签到失败，需要重新在 Loon 参数中更新 Cookie。

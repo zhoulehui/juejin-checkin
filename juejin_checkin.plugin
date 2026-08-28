@@ -1,0 +1,18 @@
+#!name = 稀土掘金自动签到
+#!desc = 每天自动签到、查询积分并执行免费抽奖
+#!author = ChatGPT
+#!homepage = https://github.com/zhoulehui/juejin-checkin
+#!system = iOS,iPadOS,tvOS,macOS
+#!type = normal
+
+[Argument]
+enabled = switch,true,tag=启用自动签到,desc=关闭后不执行定时任务
+cookie1 = input,"",tag=账号1 Cookie,desc=填写掘金完整 Cookie
+cookie2 = input,"",tag=账号2 Cookie,desc=可选，不填即可
+cookie3 = input,"",tag=账号3 Cookie,desc=可选，不填即可
+cookie4 = input,"",tag=账号4 Cookie,desc=可选，不填即可
+cookie5 = input,"",tag=账号5 Cookie,desc=可选，不填即可
+
+[Script]
+cron "15 9 * * *" script-path=https://raw.githubusercontent.com/zhoulehui/juejin-checkin/main/juejin_checkin.js,timeout=300,tag=掘金每日签到,argument=[{cookie1},{cookie2},{cookie3},{cookie4},{cookie5}],enable={enabled}
+generic script-path=https://raw.githubusercontent.com/zhoulehui/juejin-checkin/main/juejin_checkin.js,timeout=300,tag=掘金手动执行,argument=[{cookie1},{cookie2},{cookie3},{cookie4},{cookie5}],enable={enabled}
