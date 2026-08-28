@@ -1,11 +1,9 @@
-# 稀土掘金每日签到 + 抽奖（GitHub Actions 定时任务）
-# 默认每天 00:00 UTC（北京时间 08:00）自动运行，电脑关机也不影响
 name: Juejin Check-in
 
 on:
   schedule:
     - cron: '0 0 * * *'
-  workflow_dispatch: # 支持在 Actions 页面点 Run workflow 手动测试
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: 配置 Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -27,7 +25,5 @@ jobs:
 
       - name: 执行签到 + 抽奖
         env:
-          # 对应仓库里配置的 Secret：JUEJIN_COOKIES
-          # 内容格式：每行一个账号，支持 "显示名=Cookie" 或直接粘贴 Cookie
           JUEJIN_COOKIES: ${{ secrets.JUEJIN_COOKIES }}
         run: python juejin_checkin.py
