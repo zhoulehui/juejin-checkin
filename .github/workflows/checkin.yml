@@ -1,8 +1,13 @@
 name: Schedule Test
 
 on:
+  push:
+    branches:
+      - main
+
   schedule:
     - cron: '*/5 * * * *'
+
   workflow_dispatch:
 
 permissions:
@@ -15,10 +20,6 @@ jobs:
     steps:
       - name: 测试定时任务
         run: |
-          echo "========================================"
-          echo "GitHub Actions 定时任务触发成功！"
-          echo "当前 UTC 时间："
+          echo "GitHub Actions 运行成功"
+          echo "触发方式：${{ github.event_name }}"
           date -u
-          echo "当前时间："
-          date
-          echo "========================================"
