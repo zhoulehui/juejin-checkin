@@ -2,7 +2,7 @@ name: Juejin Check-in
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '15 1 * * *'
   workflow_dispatch:
 
 permissions:
@@ -11,12 +11,13 @@ permissions:
 jobs:
   checkin:
     runs-on: ubuntu-latest
+
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 配置 Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
